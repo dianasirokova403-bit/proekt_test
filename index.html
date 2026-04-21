@@ -4,13 +4,156 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Генератор идей для постов</title>
+  <style>
+    :root {
+      --bg-start: #0f172a;
+      --bg-end: #1e1b4b;
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --card-border: rgba(255, 255, 255, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-main);
+      background: linear-gradient(130deg, var(--bg-start), var(--bg-end));
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      z-index: 0;
+      animation: pulse 7s ease-in-out infinite;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      top: -80px;
+      left: -60px;
+      background: rgba(56, 189, 248, 0.35);
+    }
+
+    body::after {
+      width: 340px;
+      height: 340px;
+      bottom: -120px;
+      right: -100px;
+      background: rgba(129, 140, 248, 0.3);
+      animation-delay: 1.2s;
+    }
+
+    .card {
+      width: min(720px, 100%);
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 35px rgba(2, 6, 23, 0.4);
+      animation: fadeUp 900ms ease both;
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    li {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateX(-16px);
+      opacity: 0;
+      animation: slideIn 650ms ease forwards;
+      transition: transform 250ms ease, border-color 250ms ease, background 250ms ease;
+    }
+
+    li:nth-child(1) { animation-delay: 260ms; }
+    li:nth-child(2) { animation-delay: 420ms; }
+    li:nth-child(3) { animation-delay: 580ms; }
+
+    li:hover {
+      transform: translateX(0) scale(1.02);
+      border-color: rgba(56, 189, 248, 0.75);
+      background: rgba(56, 189, 248, 0.16);
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #0b1022;
+      font-weight: 700;
+      font-size: 0.9rem;
+      animation: float 3.2s ease-in-out infinite;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+  </style>
 </head>
 <body>
-  <h1>Генератор идей для постов</h1>
-  <ul>
-    <li>5 идей постов для экспертов</li>
-    <li>3 идеи сторис на сегодня</li>
-    <li>контент план на неделю</li>
-  </ul>
+  <main class="card">
+    <h1>Генератор идей для постов</h1>
+    <p class="subtitle">Выбери формат и получи готовое вдохновение для контента.</p>
+    <ul>
+      <li>5 идей постов для экспертов</li>
+      <li>3 идеи сторис на сегодня</li>
+      <li>Контент-план на неделю</li>
+    </ul>
+    <span class="badge">Новый стиль + анимации</span>
+  </main>
 </body>
 </html>
