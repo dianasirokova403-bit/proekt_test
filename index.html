@@ -104,35 +104,19 @@
       margin-bottom: 22px;
     }
 
-    ul {
-      list-style: none;
-      display: grid;
-      gap: 12px;
+    .content-card {
       margin-bottom: 18px;
-    }
-
-    li {
       padding: 14px 16px;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.16);
       background: rgba(255, 255, 255, 0.06);
-      transform: translateX(-16px);
-      opacity: 0;
-      animation: slideIn 650ms ease forwards;
-      animation-delay: calc(180ms + (var(--i, 0) * 140ms));
-      transition: transform 250ms ease, border-color 250ms ease, background 250ms ease;
+      animation: fadeList 280ms ease;
     }
 
-    li:hover {
+    .content-card:hover {
       transform: translateX(0) scale(1.02);
       border-color: rgba(56, 189, 248, 0.75);
       background: rgba(56, 189, 248, 0.16);
-    }
-
-    li.selected {
-      transform: translateX(0) scale(1.02);
-      border-color: rgba(129, 140, 248, 0.9);
-      background: rgba(129, 140, 248, 0.24);
     }
 
     .actions {
@@ -142,17 +126,75 @@
       flex-wrap: wrap;
     }
 
-    .type-select {
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 10px;
-      padding: 11px 12px;
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text-main);
-      font-size: 0.95rem;
+    .api-row {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
-    .type-select option {
+    .api-input {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .api-input::placeholder {
+      color: rgba(248, 250, 252, 0.75);
+    }
+
+    .tone-select {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tone-select option {
       color: #0b1022;
+    }
+
+    .content-select {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .content-select option {
+      color: #0b1022;
+    }
+
+    .format-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .format-tab {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .format-tab.active {
+      color: #0b1022;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-color: transparent;
     }
 
     .generate-btn {
@@ -193,20 +235,82 @@
       animation: float 3.2s ease-in-out infinite;
     }
 
-    .response-box {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.08);
+    .idea-format {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      color: #0b1022;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .idea-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .idea-copy {
       color: var(--text-main);
       line-height: 1.45;
       white-space: pre-line;
+      opacity: 0.96;
     }
 
-    .response-title {
+    .post-json {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .post-json-row {
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      line-height: 1.4;
+      white-space: pre-line;
+    }
+
+    .post-json-label {
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-right: 6px;
+    }
+
+    .copy-btn {
+      margin-top: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .copy-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.8);
+    }
+
+    .regen-btn {
+      margin-top: 12px;
+      margin-left: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: rgba(129, 140, 248, 0.2);
+      color: var(--text-main);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 180ms ease, border-color 180ms ease;
+    }
+
+    .regen-btn:hover {
+      background: rgba(129, 140, 248, 0.35);
+      border-color: rgba(129, 140, 248, 0.9);
     }
 
     @keyframes fadeUp {
@@ -245,24 +349,45 @@
   </main>
   <main class="card hidden" id="app-screen">
     <h1>Генератор идей для постов</h1>
-    <p class="subtitle">Выбери формат и получи готовое вдохновение для контента.</p>
-    <ul id="idea-list">
-      <li style="--i: 0;">5 идей постов для экспертов</li>
-      <li style="--i: 1;">3 идеи сторис на сегодня</li>
-      <li style="--i: 2;">Контент-план на неделю</li>
-    </ul>
-    <div class="actions">
-      <button class="generate-btn" id="generate-btn" type="button">Сгенерировать новые идеи</button>
-      <select class="type-select" id="output-type">
-        <option value="post">Готовый пост</option>
-        <option value="short">Короткий текст</option>
-      </select>
-      <button class="generate-btn" id="generate-response-btn" type="button">Сгенерировать готовый текст</button>
-      <span class="badge" id="format-badge">Формат: экспертный блог</span>
+    <p class="subtitle">Выбери формат кнопкой и тематику контента, затем генерируй текст.</p>
+    <div class="api-row">
+      <input class="api-input" id="api-key" type="password" placeholder="OpenAI API Key (sk-...)" />
+      <input class="api-input" id="api-model" type="text" value="gpt-4o-mini" />
     </div>
-    <div class="response-box hidden" id="response-box">
-      <p class="response-title">Готовый текст:</p>
-      <p id="response-text"></p>
+    <div class="format-tabs" id="format-tabs">
+      <button class="format-tab active" data-format="Post" type="button">Post</button>
+      <button class="format-tab" data-format="Stories" type="button">Stories</button>
+      <button class="format-tab" data-format="Reels" type="button">Reels</button>
+      <button class="format-tab" data-format="Carousel" type="button">Carousel</button>
+    </div>
+    <div class="content-card list-refresh" id="content-card">
+      <span class="idea-format" id="current-format">Post</span>
+      <p class="idea-title" id="idea-title">Нажмите «Сгенерировать»</p>
+      <p class="idea-copy" id="idea-copy">Здесь появится готовый текст под выбранный формат.</p>
+      <div class="post-json hidden" id="post-json">
+        <p class="post-json-row"><span class="post-json-label">Title:</span><span id="post-title">-</span></p>
+        <p class="post-json-row"><span class="post-json-label">Hook:</span><span id="post-hook">-</span></p>
+        <p class="post-json-row"><span class="post-json-label">Post:</span><span id="post-text">-</span></p>
+        <p class="post-json-row"><span class="post-json-label">CTA:</span><span id="post-cta">-</span></p>
+        <p class="post-json-row"><span class="post-json-label">Hashtags:</span><span id="post-hashtags">-</span></p>
+      </div>
+      <button class="copy-btn" id="copy-btn" type="button">Копировать</button>
+      <button class="regen-btn" id="regen-btn" type="button">Обновить</button>
+    </div>
+    <div class="actions">
+      <button class="generate-btn" id="generate-btn" type="button">Сгенерировать</button>
+      <select class="content-select" id="content-type">
+        <option value="expert">Экспертный контент</option>
+        <option value="sales">Продажи и прогрев</option>
+        <option value="brand">Личный бренд</option>
+        <option value="engagement">Вовлечение</option>
+      </select>
+      <select class="tone-select" id="tone-level">
+        <option value="soft">Мягко</option>
+        <option value="confident" selected>Уверенно</option>
+        <option value="hard">Жестко</option>
+      </select>
+      <span class="badge" id="format-badge">Формат: экспертный блог</span>
     </div>
   </main>
   <script>
@@ -284,143 +409,612 @@
       "чек-лист для быстрого результата"
     ];
 
-    const postPatterns = [
-      "Пост: 3 шага, чтобы закрыть тему «{topic}»",
-      "Пост: как улучшить «{topic}» за 15 минут в день",
-      "Пост: мини-гайд по теме «{topic}» для начинающих",
-      "Пост: 5 ошибок в теме «{topic}» и как их исправить"
+    const ideaPatterns = [
+      "Как перестать откладывать тему «{topic}» и начать делать результат",
+      "3 ошибки в теме «{topic}», которые тормозят рост",
+      "Пошаговый разбор: как упростить «{topic}» и не выгореть",
+      "Личный опыт: что реально сработало у меня в теме «{topic}»"
     ];
 
-    const storyPatterns = [
-      "Сторис: день изнутри — как вы решаете «{topic}»",
-      "Сторис: опрос «что у вас с темой: {topic}?»",
-      "Сторис: до/после по теме «{topic}»",
-      "Сторис: правда или миф про «{topic}»"
+    const ctaPhrases = [
+      "Если полезно, напишите «хочу шаблон» — отправлю структуру в комментарии.",
+      "Сохраните пост, чтобы вернуться к нему перед следующей рабочей неделей.",
+      "Если откликается, поставьте + в комментариях, и сделаю продолжение.",
+      "Напишите, какой пункт забираете в работу уже сегодня."
     ];
 
-    const bonusPatterns = [
-      "Контент-план на 7 дней вокруг темы «{topic}»",
-      "Рилс: короткий совет по теме «{topic}»",
-      "Пост-опрос: какая главная сложность в «{topic}»?",
-      "Карусель: 5 идей на тему «{topic}»"
-    ];
+    function buildPostPrompt(topic) {
+      return `
+Сгенерируй контент для соцсетей на тему "${topic}".
 
-    const listEl = document.getElementById("idea-list");
+Верни результат строго в JSON без markdown и без пояснений.
+
+Формат:
+{
+  "contentType": "post",
+  "title": "короткий заголовок",
+  "hook": "сильная первая фраза",
+  "postText": "полный готовый текст поста для публикации",
+  "cta": "короткий призыв к действию",
+  "hashtags": ["#контент", "#маркетинг", "#личныйбренд"]
+}
+
+Правила:
+- не используй слово "Идея"
+- не описывай концепцию
+- не пиши план
+- поле postText должно содержать именно готовый пост, который можно сразу публиковать
+- стиль: дерзкий, экспертный, продающий
+- postText должен быть написан как цельный текст автора блога
+`;
+    }
+
+    const contentCardEl = document.getElementById("content-card");
+    const formatTabsEl = document.getElementById("format-tabs");
+    const currentFormatEl = document.getElementById("current-format");
+    const ideaTitleEl = document.getElementById("idea-title");
+    const ideaCopyEl = document.getElementById("idea-copy");
+    const postJsonEl = document.getElementById("post-json");
+    const postTitleEl = document.getElementById("post-title");
+    const postHookEl = document.getElementById("post-hook");
+    const postTextEl = document.getElementById("post-text");
+    const postCtaEl = document.getElementById("post-cta");
+    const postHashtagsEl = document.getElementById("post-hashtags");
+    const copyBtnEl = document.getElementById("copy-btn");
+    const regenBtnEl = document.getElementById("regen-btn");
     const buttonEl = document.getElementById("generate-btn");
-    const generateResponseBtnEl = document.getElementById("generate-response-btn");
     const badgeEl = document.getElementById("format-badge");
     const startBtnEl = document.getElementById("start-btn");
     const welcomeScreenEl = document.getElementById("welcome-screen");
     const appScreenEl = document.getElementById("app-screen");
-    const responseBoxEl = document.getElementById("response-box");
-    const responseTextEl = document.getElementById("response-text");
-    const outputTypeEl = document.getElementById("output-type");
-
-    let selectedIdea = "";
+    const toneLevelEl = document.getElementById("tone-level");
+    const contentTypeEl = document.getElementById("content-type");
+    const apiKeyEl = document.getElementById("api-key");
+    const apiModelEl = document.getElementById("api-model");
     let currentLabel = formatLabels[0];
+    let selectedFormat = "Post";
+    let isGenerating = false;
+
+    const topicsByContentType = {
+      expert: [
+        "ошибки новичков",
+        "разбор кейса клиента",
+        "чек-лист для быстрого результата",
+        "система ежедневных действий"
+      ],
+      sales: [
+        "прогрев перед запуском",
+        "ошибка в оффере",
+        "дожим сомневающихся клиентов",
+        "продажа без скидки"
+      ],
+      brand: [
+        "личная история провала",
+        "позиционирование эксперта",
+        "почему вам доверяют",
+        "личные принципы в работе"
+      ],
+      engagement: [
+        "контент с реакциями",
+        "опросы в сторис",
+        "вопросы подписчиков",
+        "механики для сохранений и репостов"
+      ]
+    };
 
     function randomItem(items) {
       return items[Math.floor(Math.random() * items.length)];
     }
 
-    function fillPattern(pattern, topic) {
-      return pattern.replace("{topic}", topic);
-    }
-
-    function generatePack() {
-      const topic = randomItem(topics);
-      return {
-        label: randomItem(formatLabels),
-        ideas: [
-          fillPattern(randomItem(postPatterns), topic),
-          fillPattern(randomItem(storyPatterns), topic),
-          fillPattern(randomItem(bonusPatterns), topic)
-        ]
+    function getToneContent(tone, topic) {
+      const content = {
+        soft: {
+          hooks: [
+            `Если в «${topic}» пока нет стабильного результата, вы не одни.`,
+            `В «${topic}» многие теряют фокус и из-за этого тормозят рост.`,
+            `Проблемы в «${topic}» редко решаются сложностью, чаще — системностью.`
+          ],
+          bodyBlocks: [
+            "Из опыта работы с клиентами вижу один паттерн: люди делают много действий, но без общей логики.",
+            "Когда убираете лишнее и оставляете базовую систему, отклик аудитории растет заметно быстрее.",
+            "Ниже рабочая схема, которую можно внедрить уже сегодня:"
+          ],
+          endings: [
+            "Так вы получаете управляемый прогресс вместо перегруза.",
+            "Через неделю уже видно, что реально двигает результат.",
+            "Эта модель проста, но именно она стабилизирует рост."
+          ]
+        },
+        confident: {
+          hooks: [
+            `Если в «${topic}» у вас до сих пор хаос, проблема в подходе.`,
+            `Большинство проваливается в «${topic}» на одном и том же месте.`,
+            `Прямо сейчас «${topic}» съедает ваш ресурс, пока конкуренты забирают клиентов.`
+          ],
+          bodyBlocks: [
+            `Я прошла через это на практике: когда нет системы, вы работаете больше, а получаете меньше.`,
+            "Ключевая ошибка: люди пытаются быть везде сразу. Контент есть, заявок нет.",
+            "Рабочая схема, которая дает результат у меня и у клиентов:"
+          ],
+          endings: [
+            "Через неделю у вас будут цифры и понятный рост.",
+            "Так вы перестаете распыляться и начинаете управлять результатом.",
+            "Это приносит деньги и сильный личный бренд."
+          ]
+        },
+        hard: {
+          hooks: [
+            `Хватит сливать деньги в «${topic}» без результата.`,
+            `Если в «${topic}» у вас тишина, вы системно делаете не то.`,
+            `В «${topic}» слабая стратегия сжигает бюджет быстрее любой рекламы.`
+          ],
+          bodyBlocks: [
+            "Рынок не прощает хаос: пока вы постите все подряд, клиенты уходят к тем, кто бьет точно в боль.",
+            "Жесткая правда: без дисциплины в контенте вы не строите бренд, вы имитируете движение.",
+            "Ниже схема, которая вытаскивает из просадки:"
+          ],
+          endings: [
+            "Либо вы внедряете систему, либо продолжаете топтаться на месте.",
+            "Это момент, где заканчиваются оправдания и начинается рост.",
+            "Результат дает не вдохновение, а четкий повторяемый процесс."
+          ]
+        }
       };
+      return content[tone] || content.confident;
     }
 
-    function extractTopic(idea) {
-      return idea
-        .replace(/^[^:]+:\s*/, "")
-        .replace(/[«»"]/g, "")
-        .replace(/\?$/, "")
-        .trim();
-    }
+    function createPostCopy(topic, tone) {
+      const prompt = buildPostPrompt(topic);
+      void prompt;
+      const toneContent = getToneContent(tone, topic);
+      const hooks = toneContent.hooks;
+      const bodyBlocks = toneContent.bodyBlocks;
+      const endings = toneContent.endings;
 
-    function createReadyText(idea, outputType) {
-      const topic = extractTopic(idea);
-      if (outputType === "short") {
-        return [
-          `${topic} — тема, которая часто стопорит даже опытных специалистов.`,
-          "Сохраните себе мини-алгоритм: определите цель, уберите лишнее, протестируйте один простой шаг.",
-          "Если хотите, разберу вашу ситуацию и подскажу, с чего начать именно вам."
-        ].join("\n");
-      }
+      const actionSteps = [
+        "1) Выберите один понятный оффер на ближайшие 7 дней.",
+        "2) Уберите всё лишнее и оставьте один канал, который реально читает ваша аудитория.",
+        "3) Каждый день публикуйте один точный месседж: боль -> решение -> следующий шаг."
+      ];
 
       return [
-        `Заголовок: ${topic}: простой способ получить результат быстрее`,
+        randomItem(hooks),
         "",
-        `Сегодня про ${topic}. Обычно проблема не в мотивации, а в отсутствии четкой системы действий.`,
+        randomItem(bodyBlocks),
         "",
-        "Что сделать уже сегодня:",
-        "1) Определите 1 конкретный результат, который хотите получить за неделю.",
-        "2) Выберите 1 действие, которое можно повторять ежедневно по 15 минут.",
-        "3) В конце дня фиксируйте, что сработало, а что нужно упростить.",
+        actionSteps[0],
+        actionSteps[1],
+        actionSteps[2],
         "",
-        "Так вы перестанете распыляться и увидите прогресс уже в ближайшие дни.",
+        randomItem(endings),
         "",
-        "Напишите в комментариях «ПЛАН», и я дам шаблон под вашу ситуацию.",
+        randomItem(ctaPhrases),
         "",
-        `#контент #маркетинг #личныйбренд #${currentLabel.toLowerCase().replace(/\s+/g, "")}`
+        "#контент #маркетинг #продвижение #личныйбренд"
       ].join("\n");
     }
 
-    function selectIdea(itemEl) {
-      const prevSelected = listEl.querySelector(".selected");
-      if (prevSelected) {
-        prevSelected.classList.remove("selected");
-      }
-      itemEl.classList.add("selected");
-      selectedIdea = itemEl.textContent;
+    function createPostJsonResponse(topic, tone) {
+      const fullText = createPostCopy(topic, tone);
+      const parts = fullText.split("\n").filter(Boolean);
+      const hook = parts[0] || `Главный провал в теме «${topic}» — хаос без системы.`;
+      const cta = randomItem(ctaPhrases);
+      return {
+        contentType: "post",
+        title: `${topic}: как забрать результат быстрее`,
+        hook,
+        postText: fullText,
+        cta,
+        hashtags: ["#контент", "#маркетинг", "#личныйбренд"]
+      };
     }
 
-    function renderPack(pack) {
-      listEl.classList.remove("list-refresh");
-      void listEl.offsetWidth;
-      listEl.classList.add("list-refresh");
+    function parsePostJsonResponse(responseText) {
+      try {
+        const parsed = JSON.parse(responseText);
+        if (!parsed || typeof parsed !== "object") {
+          return null;
+        }
+        return {
+          contentType: String(parsed.contentType || "post"),
+          title: String(parsed.title || ""),
+          hook: String(parsed.hook || ""),
+          postText: String(parsed.postText || ""),
+          cta: String(parsed.cta || ""),
+          hashtags: Array.isArray(parsed.hashtags) ? parsed.hashtags.map((tag) => String(tag)) : []
+        };
+      } catch (error) {
+        return null;
+      }
+    }
 
-      listEl.innerHTML = "";
-      pack.ideas.forEach((idea, index) => {
-        const item = document.createElement("li");
-        item.style.setProperty("--i", index);
-        item.textContent = idea;
-        item.addEventListener("click", () => selectIdea(item));
-        listEl.appendChild(item);
+    async function requestPostFromModel(topic) {
+      const apiKey = apiKeyEl.value.trim();
+      const model = apiModelEl.value.trim() || "gpt-4o-mini";
+      if (!apiKey) {
+        return null;
+      }
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          temperature: 0.8,
+          messages: [
+            {
+              role: "user",
+              content: buildPostPrompt(topic)
+            }
+          ]
+        })
       });
 
-      badgeEl.textContent = pack.label;
-      currentLabel = pack.label;
-      responseBoxEl.classList.add("hidden");
-      selectedIdea = "";
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = await response.json();
+      const content = data?.choices?.[0]?.message?.content;
+      if (!content || typeof content !== "string") {
+        return null;
+      }
+      return parsePostJsonResponse(content);
+    }
+
+    function createStoriesCopy(topic, tone) {
+      const variants = {
+        soft: {
+          slide1: [
+            `Слайд 1: В «${topic}» стараетесь много, а результата все еще мало?`,
+            `Слайд 1: Если «${topic}» не дает отдачи, вы точно не одиноки.`,
+            `Слайд 1: В теме «${topic}» можно работать проще и эффективнее.`
+          ],
+          slide2: [
+            "Слайд 2: Без структуры день проходит в задачах, но без ощутимого прогресса.",
+            "Слайд 2: От этого появляется усталость и ощущение, что усилия не окупаются.",
+            "Слайд 2: Делаете много, но фокус распадается — отсюда слабый отклик."
+          ],
+          slide3: [
+            "Слайд 3: Перелом начинается, когда вы оставляете один приоритет и держите его 7 дней.",
+            "Слайд 3: Инсайт: результат дает не объем действий, а повторяемость.",
+            "Слайд 3: Как только фокус сужается, метрики начинают расти."
+          ],
+          slide4: [
+            `Слайд 4: По «${topic}» сегодня делаете один месседж, один формат, один CTA.`,
+            `Слайд 4: Решение: 7 дней подряд бьете в одну боль аудитории по теме «${topic}».`,
+            "Слайд 4: Уберите лишнее и закрепите понятный ежедневный шаг."
+          ],
+          slide5: [
+            "Слайд 5: Нужен шаблон на неделю? Напишите «ШАБЛОН» в директ.",
+            "Слайд 5: Если откликается, отправьте сторис другу, кому это сейчас нужно.",
+            "Слайд 5: Хотите продолжение с примерами? Дайте реакцию."
+          ]
+        },
+        confident: {
+          slide1: [
+            `Слайд 1: Ты пашешь в «${topic}», а результат всё еще ниже ожиданий?`,
+            `Слайд 1: В «${topic}» ты делаешь много, но на выходе — тишина.`,
+            `Слайд 1: Самая дорогая ошибка в «${topic}» — делать правильно, но не то.`
+          ],
+          slide2: [
+            "Слайд 2: Ты тратишь часы, выгораешь, а метрики стоят. Это размытый фокус.",
+            "Слайд 2: Пока нет четкой системы, каждый день начинается с нуля.",
+            "Слайд 2: Без структуры контент превращается в шум: посты есть, продаж нет."
+          ],
+          slide3: [
+            "Слайд 3: Перелом в момент, когда ты перестаешь «делать всё» и выбираешь один приоритет.",
+            "Слайд 3: Инсайт: растут не самые креативные, растут самые последовательные.",
+            "Слайд 3: Убираешь лишнее — сразу видно, что дает отклик."
+          ],
+          slide4: [
+            `Слайд 4: План по «${topic}»: один оффер, один пост, один понятный CTA.`,
+            `Слайд 4: Решение: 7 дней подряд бьешь в одну боль по теме «${topic}».`,
+            "Слайд 4: Короткая формула: проблема -> метод -> следующий шаг."
+          ],
+          slide5: [
+            "Слайд 5: Нужен рабочий шаблон? Напиши «ШАБЛОН» в директ.",
+            "Слайд 5: Если откликнулось, отправь сторис тому, кто застрял в хаосе.",
+            "Слайд 5: Хочешь продолжение? Ставь реакцию."
+          ]
+        },
+        hard: {
+          slide1: [
+            `Слайд 1: В «${topic}» нет результата? Значит, ты тратишь ресурс в пустоту.`,
+            `Слайд 1: Если «${topic}» не растет — это уже не случайность, это системная ошибка.`,
+            `Слайд 1: Большинство сливает «${topic}» из-за одного слабого решения.`
+          ],
+          slide2: [
+            "Слайд 2: Пока ты хватаешься за всё, рынок забирают те, кто бьет точно.",
+            "Слайд 2: Хаос в контенте = минус доверие, минус деньги, минус темп.",
+            "Слайд 2: Ты можешь работать 10 часов, но без системы это просто шум."
+          ],
+          slide3: [
+            "Слайд 3: Перелом начинается, когда ты режешь лишнее и оставляешь один приоритет.",
+            "Слайд 3: Инсайт: дисциплина в контенте продает лучше, чем креатив ради креатива.",
+            "Слайд 3: Как только фокус жесткий — цифры перестают плавать."
+          ],
+          slide4: [
+            `Слайд 4: По «${topic}» делай: один оффер, один месседж, один CTA каждый день.`,
+            `Слайд 4: 7 дней подряд бьешь в одну боль по теме «${topic}» и смотришь метрики.`,
+            "Слайд 4: Или система, или снова неделя пустых действий."
+          ],
+          slide5: [
+            "Слайд 5: Нужен шаблон без воды? Пиши «ШАБЛОН» в директ.",
+            "Слайд 5: Отправь это тому, кто устал работать без результата.",
+            "Слайд 5: Хочешь разбор жестко по фактам? Дай реакцию."
+          ]
+        }
+      };
+      const data = variants[tone] || variants.confident;
+      const slide1 = data.slide1;
+      const slide2 = data.slide2;
+      const slide3 = data.slide3;
+      const slide4 = data.slide4;
+      const slide5 = data.slide5;
+
+      return [
+        randomItem(slide1),
+        "",
+        randomItem(slide2),
+        "",
+        randomItem(slide3),
+        "",
+        randomItem(slide4),
+        "",
+        randomItem(slide5)
+      ].join("\n");
+    }
+
+    function createReelsCopy(topic, tone) {
+      const reelHookVariants = {
+        soft: [
+          `Хук в кадре: «${topic} не дает результат? Давайте быстро исправим это.»`,
+          `Хук в кадре: «Если в ${topic} нет роста, у вас просто нет четкой системы.»`,
+          `Хук в кадре: «Сделайте ${topic} проще — и результат станет стабильнее.»`
+        ],
+        confident: [
+          `Хук в кадре: «${topic} не работает? Значит, вы повторяете дорогую ошибку большинства.»`,
+          `Хук в кадре: «Если в ${topic} нет результата, сейчас покажу, где вы теряете деньги.»`,
+          `Хук в кадре: «Перестаньте усложнять ${topic}. Это убивает ваш рост.»`
+        ],
+        hard: [
+          `Хук в кадре: «${topic} не растет? Вы сливаете ресурс в пустую стратегию.»`,
+          `Хук в кадре: «Если в ${topic} нет продаж, проблема в вашем контентном управлении.»`,
+          `Хук в кадре: «${topic} буксует, потому что вы делаете лишнее вместо нужного.»`
+        ]
+      };
+      const reelHooks = reelHookVariants[tone] || reelHookVariants.confident;
+
+      return [
+        randomItem(reelHooks),
+        "Текст за кадром: «Пока вы делаете всё подряд, алгоритмы и аудитория не понимают, о чем вы и зачем вам доверять.»",
+        `Поворот: «Выберите один четкий угол по теме "${topic}" и бейте в него 7 дней подряд.»`,
+        "Решение в кадре: «Один месседж, один оффер, один CTA — так появляется стабильный отклик.»",
+        "Финал: «Сохраните и отправьте тому, кто устал от хаоса в контенте.»",
+        "Подпись к reels: Это не магия и не удача. Это дисциплина, которая конвертируется в продажи."
+      ].join("\n");
+    }
+
+    function createCarouselCopy(topic, tone) {
+      const firstSlide = {
+        soft: `«${topic}: почему результат тормозит и как спокойно это исправить»`,
+        confident: `«${topic}: почему у вас нет результата и как это быстро исправить»`,
+        hard: `«${topic}: где вы теряете деньги и как закрыть этот слив»`
+      };
+      const slide2 = {
+        soft: "«Проблема: действий много, но они не собраны в понятную систему.»",
+        confident: "«Проблема: вы делаете много действий, но ни одно не доводите до системы.»",
+        hard: "«Проблема: вы заняты контентом, который не приносит ни доверия, ни продаж.»"
+      };
+      const slide3 = {
+        soft: "«Усиление: отсюда усталость, хаос в задачах и слабый отклик аудитории.»",
+        confident: "«Усиление: так сливается время, бюджет и доверие аудитории.»",
+        hard: "«Усиление: каждый день без системы — это минус темп, минус деньги, минус позиция на рынке.»"
+      };
+      const slide4 = {
+        soft: `«Решение: в ${topic} оставляете один фокус, один ежедневный шаг и проверяете метрики раз в день.»`,
+        confident: `«Решение: в ${topic} оставляете один приоритет, фиксируете ежедневный шаг и проверяете метрики раз в 24 часа.»`,
+        hard: `«Решение: по ${topic} режете всё лишнее, 7 дней бьете в одну боль и считаете только целевые метрики.»`
+      };
+      const slide5 = {
+        soft: "«Сохраните карусель и отправьте коллеге, кому нужна более ясная система.»",
+        confident: "«Сохраните карусель и отправьте коллеге, который устал работать без видимого роста.»",
+        hard: "«Сохраните и отправьте тому, кто больше не готов работать в хаосе и сливать ресурс.»"
+      };
+
+      return [
+        "Слайд 1 (обложка):",
+        firstSlide[tone] || firstSlide.confident,
+        "",
+        "Слайд 2:",
+        slide2[tone] || slide2.confident,
+        "",
+        "Слайд 3:",
+        slide3[tone] || slide3.confident,
+        "",
+        "Слайд 4:",
+        slide4[tone] || slide4.confident,
+        "",
+        "Слайд 5 (CTA):",
+        slide5[tone] || slide5.confident
+      ].join("\n");
+    }
+
+    async function copyTextToClipboard(text, buttonEl) {
+      const defaultText = "Копировать";
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const tempTextArea = document.createElement("textarea");
+          tempTextArea.value = text;
+          document.body.appendChild(tempTextArea);
+          tempTextArea.select();
+          document.execCommand("copy");
+          tempTextArea.remove();
+        }
+        buttonEl.textContent = "Скопировано!";
+      } catch (error) {
+        buttonEl.textContent = "Ошибка копирования";
+      }
+      setTimeout(() => {
+        buttonEl.textContent = defaultText;
+      }, 1200);
+    }
+
+    function generateSingleItem(format, tone) {
+      const topicsPool = topicsByContentType[contentTypeEl.value] || topics;
+      const topic = randomItem(topicsPool);
+      const idea = randomItem(ideaPatterns).replace("{topic}", topic);
+      let copy = "";
+      let postJson = null;
+
+      if (format === "Post") {
+        const llmLikeResponse = JSON.stringify(createPostJsonResponse(topic, tone));
+        postJson = parsePostJsonResponse(llmLikeResponse);
+        copy = postJson ? postJson.postText : createPostCopy(topic, tone);
+      } else if (format === "Stories") {
+        copy = createStoriesCopy(topic, tone);
+      } else if (format === "Reels") {
+        copy = createReelsCopy(topic, tone);
+      } else {
+        copy = createCarouselCopy(topic, tone);
+      }
+
+      return { format, idea, copy, postJson, topic };
+    }
+
+    function getLabelByContentType() {
+      const labels = {
+        expert: "Формат: экспертный блог",
+        sales: "Формат: продажи и прогрев",
+        brand: "Формат: личный бренд",
+        engagement: "Формат: вовлечение"
+      };
+      return labels[contentTypeEl.value] || labels.expert;
+    }
+
+    function renderCurrentItem(item) {
+      contentCardEl.classList.remove("list-refresh");
+      void contentCardEl.offsetWidth;
+      contentCardEl.classList.add("list-refresh");
+      currentFormatEl.textContent = item.format;
+      ideaTitleEl.textContent = `Идея: ${item.idea}`;
+      ideaCopyEl.textContent = item.copy;
+      if (item.format === "Post" && item.postJson) {
+        postJsonEl.classList.remove("hidden");
+        postTitleEl.textContent = item.postJson.title;
+        postHookEl.textContent = item.postJson.hook;
+        postTextEl.textContent = item.postJson.postText;
+        postCtaEl.textContent = item.postJson.cta;
+        postHashtagsEl.textContent = item.postJson.hashtags.join(" ");
+      } else {
+        postJsonEl.classList.add("hidden");
+      }
+      badgeEl.textContent = getLabelByContentType();
+      currentLabel = badgeEl.textContent;
+    }
+
+    function setGeneratingState(value) {
+      isGenerating = value;
+      buttonEl.disabled = value;
+      regenBtnEl.disabled = value;
+      copyBtnEl.disabled = value;
+      buttonEl.textContent = value ? "Генерирую..." : "Сгенерировать";
+    }
+
+    async function generateCurrentItem() {
+      if (isGenerating) {
+        return;
+      }
+      setGeneratingState(true);
+      const tone = toneLevelEl.value;
+      const item = generateSingleItem(selectedFormat, tone);
+
+      if (selectedFormat === "Post") {
+        const apiResult = await requestPostFromModel(item.topic);
+        if (apiResult) {
+          item.idea = `Пост на тему: ${item.topic}`;
+          item.copy = apiResult.postText;
+          item.postJson = apiResult;
+        }
+      }
+
+      renderCurrentItem(item);
+      setGeneratingState(false);
+    }
+
+    function setActiveFormat(format) {
+      selectedFormat = format;
+      const tabs = formatTabsEl.querySelectorAll(".format-tab");
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.format === format);
+      });
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
     }
 
     buttonEl.addEventListener("click", () => {
-      renderPack(generatePack());
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
     });
 
-    generateResponseBtnEl.addEventListener("click", () => {
-      if (!selectedIdea) {
-        responseTextEl.textContent = "Сначала выберите идею из списка, затем нажмите кнопку генерации текста.";
+    regenBtnEl.addEventListener("click", () => {
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
+    });
+
+    copyBtnEl.addEventListener("click", () => {
+      if (!postJsonEl.classList.contains("hidden")) {
+        const composedPost = [
+          postTitleEl.textContent,
+          "",
+          postHookEl.textContent,
+          "",
+          postTextEl.textContent,
+          "",
+          postCtaEl.textContent,
+          "",
+          postHashtagsEl.textContent
+        ].join("\n");
+        copyTextToClipboard(composedPost, copyBtnEl);
       } else {
-        responseTextEl.textContent = createReadyText(selectedIdea, outputTypeEl.value);
+        copyTextToClipboard(ideaCopyEl.textContent, copyBtnEl);
       }
-      responseBoxEl.classList.remove("hidden");
+    });
+
+    contentTypeEl.addEventListener("change", () => {
+      badgeEl.textContent = getLabelByContentType();
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
+    });
+
+    toneLevelEl.addEventListener("change", () => {
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
+    });
+
+    formatTabsEl.querySelectorAll(".format-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        setActiveFormat(tab.dataset.format);
+      });
     });
 
     startBtnEl.addEventListener("click", () => {
       welcomeScreenEl.classList.add("hidden");
       appScreenEl.classList.remove("hidden");
-      renderPack(generatePack());
+      generateCurrentItem().catch(() => {
+        setGeneratingState(false);
+      });
     });
   </script>
 </body>
