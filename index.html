@@ -28,9 +28,10 @@
       color: var(--text-main);
       background: linear-gradient(130deg, var(--bg-start), var(--bg-end));
       display: grid;
-      place-items: center;
+      place-items: start center;
       padding: 24px;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       position: relative;
     }
 
@@ -74,6 +75,24 @@
       animation: fadeUp 900ms ease both;
     }
 
+    .hidden {
+      display: none;
+    }
+
+    .welcome-card {
+      text-align: center;
+    }
+
+    .welcome-card h1 {
+      margin-bottom: 14px;
+    }
+
+    .welcome-card p {
+      color: var(--text-muted);
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+
     h1 {
       font-size: clamp(1.5rem, 2.4vw, 2.2rem);
       margin-bottom: 10px;
@@ -110,11 +129,30 @@
       background: rgba(56, 189, 248, 0.16);
     }
 
+    li.selected {
+      transform: translateX(0) scale(1.02);
+      border-color: rgba(129, 140, 248, 0.9);
+      background: rgba(129, 140, 248, 0.24);
+    }
+
     .actions {
       display: flex;
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
+    }
+
+    .type-select {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      padding: 11px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .type-select option {
+      color: #0b1022;
     }
 
     .generate-btn {
@@ -155,6 +193,22 @@
       animation: float 3.2s ease-in-out infinite;
     }
 
+    .response-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      line-height: 1.45;
+      white-space: pre-line;
+    }
+
+    .response-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
@@ -181,7 +235,15 @@
   </style>
 </head>
 <body>
-  <main class="card">
+  <main class="card welcome-card" id="welcome-screen">
+    <h1>Добро пожаловать!</h1>
+    <p>
+      Это мини-приложение поможет быстро получить идеи для постов:
+      от экспертного контента до вовлекающих публикаций.
+    </p>
+    <button class="generate-btn" id="start-btn" type="button">Начать</button>
+  </main>
+  <main class="card hidden" id="app-screen">
     <h1>Генератор идей для постов</h1>
     <p class="subtitle">Выбери формат и получи готовое вдохновение для контента.</p>
     <ul id="idea-list">
@@ -191,50 +253,136 @@
     </ul>
     <div class="actions">
       <button class="generate-btn" id="generate-btn" type="button">Сгенерировать новые идеи</button>
+      <select class="type-select" id="output-type">
+        <option value="post">Готовый пост</option>
+        <option value="short">Короткий текст</option>
+      </select>
+      <button class="generate-btn" id="generate-response-btn" type="button">Сгенерировать готовый текст</button>
       <span class="badge" id="format-badge">Формат: экспертный блог</span>
+    </div>
+    <div class="response-box hidden" id="response-box">
+      <p class="response-title">Готовый текст:</p>
+      <p id="response-text"></p>
     </div>
   </main>
   <script>
-    const ideaPacks = [
-      {
-        label: "Формат: экспертный блог",
-        ideas: [
-          "5 идей постов для экспертов",
-          "3 идеи сторис на сегодня",
-          "Контент-план на неделю"
-        ]
-      },
-      {
-        label: "Формат: продажи и прогрев",
-        ideas: [
-          "Пост: 3 частые ошибки клиентов до покупки",
-          "Сторис: кейс до/после с результатом",
-          "Пост: мини-воронка из 4 касаний"
-        ]
-      },
-      {
-        label: "Формат: личный бренд",
-        ideas: [
-          "Пост: история одного провала и вывод",
-          "Сторис: день изнутри в 5 кадрах",
-          "Пост: ваш главный принцип в работе"
-        ]
-      },
-      {
-        label: "Формат: вовлечение",
-        ideas: [
-          "Пост-опрос: что сложнее всего в вашей нише?",
-          "Сторис: правда или миф о вашей теме",
-          "Пост: разбор комментария подписчика"
-        ]
-      }
+    const formatLabels = [
+      "Формат: экспертный блог",
+      "Формат: продажи и прогрев",
+      "Формат: личный бренд",
+      "Формат: вовлечение"
+    ];
+
+    const topics = [
+      "ошибки новичков",
+      "скрытые возможности продукта",
+      "путь клиента до покупки",
+      "рабочие инструменты на каждый день",
+      "история из практики",
+      "разбор частого вопроса подписчика",
+      "мифы в вашей нише",
+      "чек-лист для быстрого результата"
+    ];
+
+    const postPatterns = [
+      "Пост: 3 шага, чтобы закрыть тему «{topic}»",
+      "Пост: как улучшить «{topic}» за 15 минут в день",
+      "Пост: мини-гайд по теме «{topic}» для начинающих",
+      "Пост: 5 ошибок в теме «{topic}» и как их исправить"
+    ];
+
+    const storyPatterns = [
+      "Сторис: день изнутри — как вы решаете «{topic}»",
+      "Сторис: опрос «что у вас с темой: {topic}?»",
+      "Сторис: до/после по теме «{topic}»",
+      "Сторис: правда или миф про «{topic}»"
+    ];
+
+    const bonusPatterns = [
+      "Контент-план на 7 дней вокруг темы «{topic}»",
+      "Рилс: короткий совет по теме «{topic}»",
+      "Пост-опрос: какая главная сложность в «{topic}»?",
+      "Карусель: 5 идей на тему «{topic}»"
     ];
 
     const listEl = document.getElementById("idea-list");
     const buttonEl = document.getElementById("generate-btn");
+    const generateResponseBtnEl = document.getElementById("generate-response-btn");
     const badgeEl = document.getElementById("format-badge");
+    const startBtnEl = document.getElementById("start-btn");
+    const welcomeScreenEl = document.getElementById("welcome-screen");
+    const appScreenEl = document.getElementById("app-screen");
+    const responseBoxEl = document.getElementById("response-box");
+    const responseTextEl = document.getElementById("response-text");
+    const outputTypeEl = document.getElementById("output-type");
 
-    let currentIndex = 0;
+    let selectedIdea = "";
+    let currentLabel = formatLabels[0];
+
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function fillPattern(pattern, topic) {
+      return pattern.replace("{topic}", topic);
+    }
+
+    function generatePack() {
+      const topic = randomItem(topics);
+      return {
+        label: randomItem(formatLabels),
+        ideas: [
+          fillPattern(randomItem(postPatterns), topic),
+          fillPattern(randomItem(storyPatterns), topic),
+          fillPattern(randomItem(bonusPatterns), topic)
+        ]
+      };
+    }
+
+    function extractTopic(idea) {
+      return idea
+        .replace(/^[^:]+:\s*/, "")
+        .replace(/[«»"]/g, "")
+        .replace(/\?$/, "")
+        .trim();
+    }
+
+    function createReadyText(idea, outputType) {
+      const topic = extractTopic(idea);
+      if (outputType === "short") {
+        return [
+          `${topic} — тема, которая часто стопорит даже опытных специалистов.`,
+          "Сохраните себе мини-алгоритм: определите цель, уберите лишнее, протестируйте один простой шаг.",
+          "Если хотите, разберу вашу ситуацию и подскажу, с чего начать именно вам."
+        ].join("\n");
+      }
+
+      return [
+        `Заголовок: ${topic}: простой способ получить результат быстрее`,
+        "",
+        `Сегодня про ${topic}. Обычно проблема не в мотивации, а в отсутствии четкой системы действий.`,
+        "",
+        "Что сделать уже сегодня:",
+        "1) Определите 1 конкретный результат, который хотите получить за неделю.",
+        "2) Выберите 1 действие, которое можно повторять ежедневно по 15 минут.",
+        "3) В конце дня фиксируйте, что сработало, а что нужно упростить.",
+        "",
+        "Так вы перестанете распыляться и увидите прогресс уже в ближайшие дни.",
+        "",
+        "Напишите в комментариях «ПЛАН», и я дам шаблон под вашу ситуацию.",
+        "",
+        `#контент #маркетинг #личныйбренд #${currentLabel.toLowerCase().replace(/\s+/g, "")}`
+      ].join("\n");
+    }
+
+    function selectIdea(itemEl) {
+      const prevSelected = listEl.querySelector(".selected");
+      if (prevSelected) {
+        prevSelected.classList.remove("selected");
+      }
+      itemEl.classList.add("selected");
+      selectedIdea = itemEl.textContent;
+    }
 
     function renderPack(pack) {
       listEl.classList.remove("list-refresh");
@@ -246,15 +394,33 @@
         const item = document.createElement("li");
         item.style.setProperty("--i", index);
         item.textContent = idea;
+        item.addEventListener("click", () => selectIdea(item));
         listEl.appendChild(item);
       });
 
       badgeEl.textContent = pack.label;
+      currentLabel = pack.label;
+      responseBoxEl.classList.add("hidden");
+      selectedIdea = "";
     }
 
     buttonEl.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % ideaPacks.length;
-      renderPack(ideaPacks[currentIndex]);
+      renderPack(generatePack());
+    });
+
+    generateResponseBtnEl.addEventListener("click", () => {
+      if (!selectedIdea) {
+        responseTextEl.textContent = "Сначала выберите идею из списка, затем нажмите кнопку генерации текста.";
+      } else {
+        responseTextEl.textContent = createReadyText(selectedIdea, outputTypeEl.value);
+      }
+      responseBoxEl.classList.remove("hidden");
+    });
+
+    startBtnEl.addEventListener("click", () => {
+      welcomeScreenEl.classList.add("hidden");
+      appScreenEl.classList.remove("hidden");
+      renderPack(generatePack());
     });
   </script>
 </body>
